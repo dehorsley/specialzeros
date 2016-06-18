@@ -26,17 +26,16 @@ function x = cylindzero(nu, m, t)
 
     for i=1:numel(m)
         targetPhase = (m(i)+offset+t+1/2)*pi;
-        if m(i) == 1 && t > 0 && t < 0.25
+        if m(i) == 1 && t > 0 && t <= 0.25
             if t < 1e-4
                 warning('cylindzero: tolerance first root maybe be less than expected')
             end
             f =  @(x) besselphase(nu,x) - targetPhase;
-            x(i)  = ridders(f, 0, pi*t/4, 10*eps);
+            x(i)  = ridders(f, 0, pi*t/3, 10*eps);
             continue
         end
 
         % First term in McMahon's expansion for root
-        % x(i) = (m(i)+d+t+1/2*nu+3/4)*pi; 
         x(i) = targetPhase + (2*nu + 1)*pi/4;
         relerr = 1;
         n = 0;
@@ -47,7 +46,6 @@ function x = cylindzero(nu, m, t)
             x(i) = x(i)*(1 - relerr); 
             n = n + 1;
         end
-        n;
         if n == 20
             error('cylindzero: failed to converge')
         end

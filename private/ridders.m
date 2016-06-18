@@ -39,10 +39,8 @@ function d = ridders(f, a, b, tol)
             a = d;
             fa = fd;
         else % fd==0
-            n
             return
         end
         n = n + 1;
     end
-    n
 end
