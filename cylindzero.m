@@ -1,4 +1,4 @@
-function x = cylindzero(nu, m, t)
+function [x, itter] = cylindzero(nu, m, t)
     % x = CYLINDZERO(nu, m, t)  The mth positive real root of the function
     %   J(nu,x) cos(pi t) + Y(nu,x) sin(pi t) == 0
     % where J and Y are the Bessel functions of the first and second find.
@@ -23,6 +23,8 @@ function x = cylindzero(nu, m, t)
     offset = -2 + (t <= 0);
     
     x = zeros(size(m));
+    itter = zeros(size(m));
+
 
     for i=1:numel(m)
         targetPhase = (m(i)+offset+t+1/2)*pi;
@@ -31,7 +33,7 @@ function x = cylindzero(nu, m, t)
                 warning('cylindzero: tolerance first root maybe be less than expected')
             end
             f =  @(x) besselphase(nu,x) - targetPhase;
-            x(i)  = ridders(f, 0, pi*t/3, 10*eps);
+            x(i)  = ridders(f, 0, nu + 2*nu^(1/3) + 0.25, 10*eps);
             continue
         end
 
@@ -49,5 +51,6 @@ function x = cylindzero(nu, m, t)
         if n == 20
             error('cylindzero: failed to converge')
         end
+        itter(i) = n;
     end
 end
