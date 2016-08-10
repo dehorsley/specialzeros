@@ -4,7 +4,7 @@ function k = besscrosszero(nu, l, N, varargin)
     %     k = BESSCROSSZERO(m, labmda, N) the Nth root of the Bessel
     %     function cross products J(m,x)*Y(m,labmda*x) - Y(m,x)*J(m,labmda*x)
     %
-    %     k = BESSCROSSZERO(m, labmda, N, BC) the Nth root of the function, 
+    %     k = BESSCROSSZERO(m, labmda, N, BC) the Nth root of the function,
     %     when, BC = 'DD',
     %             J(m,x)*Y(m,labmda*x) - Y(m,x)*J(m,labmda*x)
     %           BC ='DN':
@@ -22,7 +22,7 @@ function k = besscrosszero(nu, l, N, varargin)
     [T,tol] = optargs{:};
 
     if numel(T) == 2 && ~regexp(T,'[ND]{2}')
-        error('Type must be either ''D'' or ''N''.') 
+        error('Type must be either ''D'' or ''N''.')
     end
 
     %Transform roots if necessary
@@ -37,7 +37,7 @@ function k = besscrosszero(nu, l, N, varargin)
     end
 
     if l == 1
-        k = nan(size(N))
+        k = nan(size(N));
         return
     end
 
@@ -57,24 +57,23 @@ function k = besscrosszero(nu, l, N, varargin)
         case 'DD'
             k(mcm) = N(mcm)*pi/(l1);
             p = (mu-1)/(8*l);
-            q = (mu-1)*(mu-25)*(l^3-1)/(6*(4*l)^3*l1);
-            r = (mu-1)*(mu^2-114*mu+1073)*(l^5-1)/(5*(4*l)^5*l1);
+            % q = (mu-1)*(mu-25)*(l^3-1)/(6*(4*l)^3*l1);
+            % r = (mu-1)*(mu^2-114*mu+1073)*(l^5-1)/(5*(4*l)^5*l1);
         case 'DN'
             k(mcm) = (N(mcm)-0.5)*pi/(l1);
             p =-((mu+3)-(mu-1)*l)/(8*l*l1);
-            q =-((mu^2+46*mu-63)-(mu-1)*(mu-25)*l^3)./(6*(4*l)^3*l1);
-            r =-((mu^3+185*mu^2-2053*mu+1899) - (mu-1)*(mu^2-114*mu+1073)*l^5)/(5*(4*l)^5*l1);
+            % q =-((mu^2+46*mu-63)-(mu-1)*(mu-25)*l^3)./(6*(4*l)^3*l1);
+            % r =-((mu^3+185*mu^2-2053*mu+1899) - (mu-1)*(mu^2-114*mu+1073)*l^5)/(5*(4*l)^5*l1);
         case 'ND'
             k(mcm) = (N(mcm)-0.5)*pi/(l1);
             p = ((mu+3)*l-(mu-1))/(8*l*l1);
-            p = ((mu+3)*l-(mu-1))/(8*l*l1);
-            q = ((mu^2+46*mu-63)*l^3-(mu-1)*(mu-25))./(6*(4*l)^3*l1);
-            r = ((mu^3+185*mu^2-2053*mu+1899)*l^5 - (mu-1)*(mu^2-114*mu+1073))/(5*(4*l)^5*l1);
+            % q = ((mu^2+46*mu-63)*l^3-(mu-1)*(mu-25))./(6*(4*l)^3*l1);
+            % r = ((mu^3+185*mu^2-2053*mu+1899)*l^5 - (mu-1)*(mu^2-114*mu+1073))/(5*(4*l)^5*l1);
         case 'NN'
             k(mcm) = (N(mcm)-1+(nu==0))*pi/(l1);
             p = (mu+3)/(8*l);
-            q = (mu^2+46*mu-63)*(l^3-1)./(6*(4*l)^3*l1);
-            r = (mu^3+185*mu^2-2053*mu+1899)*(l^5-1)/(5*(4*l)^5*l1);
+            % q = (mu^2+46*mu-63)*(l^3-1)./(6*(4*l)^3*l1);
+            % r = (mu^3+185*mu^2-2053*mu+1899)*(l^5-1)/(5*(4*l)^5*l1);
     end
     if nu > 0 && l > 2
          k(mcm) = k(mcm) + p./k(mcm);
@@ -95,9 +94,7 @@ function k = besscrosszero(nu, l, N, varargin)
             err = abs(update);
             itt=itt+1;
         end
-        itt
         if itt >= 25
-            update
             warning('unable to reach tol at,nu = %f n = %d',nu,n)
         end
         k(m) = x;
@@ -115,7 +112,7 @@ function [t,xdt] = theta(i,j,n,x,l)
 
     if j == 1
         [t2,M2] = besselprimephase(n,x);
-        xdt2 = 2*(1-(n./(l*x)).^2)./(pi*M2);
+        xdt2 = 2*(1-(n./x).^2)./(pi*M2);
     else
         [t2,M2] = besselphase(n,x);
         xdt2 = 2./(pi*M2);
