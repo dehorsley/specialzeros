@@ -1,4 +1,4 @@
-function d = ridders(f, a, b, tol)
+function [d,n] = ridders(f, a, b, tol)
     % RIDDERS' root finding method. A quadratically convergent
     % bracketing method
     %

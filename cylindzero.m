@@ -33,7 +33,8 @@ function [x, itter] = cylindzero(nu, m, t)
                 warning('cylindzero: tolerance first root maybe be less than expected')
             end
             f =  @(x) besselphase(nu,x) - targetPhase;
-            x(i)  = ridders(f, 0, nu + 2*nu^(1/3) + 0.25, 10*eps);
+            [x(i), n]  = ridders(f, 0, nu + 2*nu^(1/3) + 0.25, 10*eps);
+            itter(i) = n;
             continue
         end
 
@@ -41,7 +42,7 @@ function [x, itter] = cylindzero(nu, m, t)
         x(i) = targetPhase + (2*nu + 1)*pi/4;
         relerr = 1;
         n = 0;
-        while abs(relerr) > eps && n < 20;
+        while abs(relerr) > 2*eps && n < 20;
             [th,M2] = besselphase(nu,x(i));
             % From Newton's method
             relerr = (th-targetPhase)*pi*M2/2;
