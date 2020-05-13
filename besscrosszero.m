@@ -14,6 +14,9 @@ function [k, itter] = besscrosszero(nu, l, N, varargin)
     %           BC ='NN':
     %             J'(m,x)*Y'(m,labmda*x) - Y'(m,x)*J'(m,labmda*x)
     %
+    %     k = BESSCROSSZERO(m, labmda, N, BC, tol) as above, with roots
+    %     calculated to relative tolerance 'tol' (default eps)
+    %
     %     N can be an array
 
     numvarargs = length(varargin);
