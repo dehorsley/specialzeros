@@ -86,11 +86,16 @@ function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
             % q = (mu^2+46*mu-63)*(l^3-1)./(6*(4*l)^3*l1);
             % r = (mu^3+185*mu^2-2053*mu+1899)*(l^5-1)/(5*(4*l)^5*l1);
     end
-    if nu > 0 && l > 2
+    if nu > 1
          k(mcm) = k(mcm) + p./k(mcm);
     end
-    %McMahon's expansion for the roots/stationary points of the J_nu(x)
-    k(~mcm) = (N(~mcm)+nu/2-(2*i-1)./4)*pi/l;
+
+    % For roots less than the order, use the roots/stationary points of the J_nu(l*x)
+    if i == 0
+        k(~mcm) = cylindzero(nu, N(~mcm), 0, 1e-3)/l;
+    else
+        k(~mcm) = cylindprimezero(nu, N(~mcm), 0, 1e-3)/l;
+    end
 
     for m = 1:length(N)
         n = N(m);
