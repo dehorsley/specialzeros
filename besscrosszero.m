@@ -1,4 +1,4 @@
-function [k, itter] = besscrosszero(nu, l, N, varargin)
+function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
     % BESSCROSSZERO the roots of the Bessel function cross products
     %
     %     k = BESSCROSSZERO(m, labmda, N) the Nth root of the Bessel
@@ -58,6 +58,9 @@ function [k, itter] = besscrosszero(nu, l, N, varargin)
     if nargout > 1
         itter = zeros(size(N));
     end
+    if nargout > 2
+        errs = zeros(size(N));
+    end
     
     % Initial guess for roots after the tp using McMahon's expansion
     mcm = ((N+delta)*pi >= tp);
@@ -101,9 +104,12 @@ function [k, itter] = besscrosszero(nu, l, N, varargin)
             x = x*(1-update);
             err = abs(update);
             itt=itt+1;
-            if nargout > 1
-               itter(m) = itt;
-            end
+        end
+        if nargout > 1
+           itter(m) = itt;
+        end
+        if nargout > 2
+            errs(m) = err;
         end
         if itt >= 25
             warning('unable to reach tol at, nu = %f, n = %d (last rel update %g, tol = %g)',nu,n,err,tol)
