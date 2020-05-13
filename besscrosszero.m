@@ -106,7 +106,7 @@ function [k, itter] = besscrosszero(nu, l, N, varargin)
             end
         end
         if itt >= 25
-            warning('unable to reach tol at,nu = %f n = %d',nu,n)
+            warning('unable to reach tol at, nu = %f, n = %d (last rel update %g, tol = %g)',nu,n,err,tol)
         end
         k(m) = x;
     end
