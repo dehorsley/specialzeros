@@ -1,4 +1,4 @@
-function [x, itter] = cylindzero(nu, m, t)
+function [x, itter] = cylindzero(nu, m, t, varargin)
     % x = CYLINDZERO(nu, m, t)  The mth positive real root of the function
     %   J(nu,x) cos(pi t) + Y(nu,x) sin(pi t) == 0
     % where J and Y are the Bessel functions of the first and second find.
@@ -6,6 +6,11 @@ function [x, itter] = cylindzero(nu, m, t)
     % m can be an array. nu and t must be scalars.
     %
     % The order nu must be postive.
+
+    numvarargs = length(varargin);
+    optargs = {2*eps}; %Defaults
+    optargs(1:numvarargs) = varargin;
+    [tol] = optargs{:};
     
     
     if length(nu) > 1
@@ -42,7 +47,7 @@ function [x, itter] = cylindzero(nu, m, t)
         x(i) = targetPhase + (2*nu + 1)*pi/4;
         relerr = 1;
         n = 0;
-        while abs(relerr) > 2*eps && n < 20;
+        while abs(relerr) > tol && n < 20;
             [th,M2] = besselphase(nu,x(i));
             % From Newton's method
             relerr = (th-targetPhase)*pi*M2/2;

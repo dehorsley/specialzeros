@@ -1,4 +1,4 @@
-function x = cylindprimezero(nu, m, t)
+function x = cylindprimezero(nu, m, t, varargin)
     % x = CYLINDPRIMEZERO(nu, m, t)  The mth positive real root of the function
     %     J'(nu,x) cos(pi t) + Y'(nu,x) sin(pi t) == 0 
     % where J' and Y' are the derivatives of Bessel functions of the first and
@@ -7,6 +7,11 @@ function x = cylindprimezero(nu, m, t)
     % m can be an array. nu and t must be scalars.
     %
     % The order nu must be postive.
+
+    numvarargs = length(varargin);
+    optargs = {2*eps}; %Defaults
+    optargs(1:numvarargs) = varargin;
+    [tol] = optargs{:};
     
     
     if length(nu) > 1
@@ -68,7 +73,7 @@ function x = cylindprimezero(nu, m, t)
 
         relerr = 1;
         n = 0;
-        while abs(relerr) > eps && n < 20;
+        while abs(relerr) > tol && n < 20;
             [th,M2] = besselprimephase(nu,x(i));
             % Newton's method
             relerr = (th-targetPhase)*pi/2*M2/(1-(nu/x(i))^2);
