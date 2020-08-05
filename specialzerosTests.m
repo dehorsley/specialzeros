@@ -24,6 +24,18 @@ function testBesscrosszero(testCase)
     end
 end 
 
+function testBesscrosszeroError(testCase)
+    verifyLessThanOrEqual(testCase, abs(besscrosszero(0, 2, 1, 'DD')-3.123030919595692),eps);
+    verifyLessThanOrEqual(testCase, abs(besscrosszero(0, 2, 1, 'DN')-1.794010904758688),eps);
+    verifyLessThanOrEqual(testCase, abs(besscrosszero(0, 2, 1, 'ND')-1.360777385337008),eps);
+    verifyLessThanOrEqual(testCase, abs(besscrosszero(0, 2, 1, 'NN')-3.196578380810634),eps);
+
+    verifyError(testCase, @() besscrosszero(0, 2, 1, 'AA'), 'besscrosszero:invalidArgument');
+    verifyError(testCase, @() besscrosszero(0, 2, 1, 'A'), 'besscrosszero:invalidArgument');
+    verifyError(testCase, @() besscrosszero(0, 2, 1, 'NNN'), 'besscrosszero:invalidArgument');
+
+end
+
 
 % function testBesscrosszero(testCase)
 %     t = besscrosszeroTests;

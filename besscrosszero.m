@@ -25,11 +25,11 @@ function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
     [T,tol] = optargs{:};
 
     if numel(T) ~= 2
-        error('BC must be a string of length 2')
+        error('besscrosszero:invalidArgument', 'BC must be a string of length 2')
     end
 
     if ~((T(1) == 'D' || T(1) == 'N') && (T(2) == 'D' || T(2) == 'N'))
-        error('BC elements must be either ''D'' or ''N''.')
+        error('besscrosszero:invalidArgument', 'BC elements must be either ''D'' or ''N''.')
     end
 
 
