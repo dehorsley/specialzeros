@@ -24,9 +24,15 @@ function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
     optargs(1:numvarargs) = varargin;
     [T,tol] = optargs{:};
 
-    if numel(T) == 2 && ~regexp(T,'[ND]{2}')
-        error('Type must be either ''D'' or ''N''.')
+    if numel(T) ~= 2
+        error('BC must be a string of length 2')
     end
+
+    if ~((T(1) == 'D' || T(1) == 'N') && (T(2) == 'D' || T(2) == 'N'))
+        error('BC elements must be either ''D'' or ''N''.')
+    end
+
+
 
     %Transform roots if necessary
     if l < 1
@@ -54,14 +60,14 @@ function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
     tp = theta(i,j,nu,nu,l);
 
     k = zeros(size(N));
-    
+
     if nargout > 1
         itter = zeros(size(N));
     end
     if nargout > 2
         errs = zeros(size(N));
     end
-    
+
     % Initial guess for roots after the tp using McMahon's expansion
     mcm = ((N+delta)*pi >= tp);
     switch T
@@ -87,7 +93,7 @@ function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
             % r = (mu^3+185*mu^2-2053*mu+1899)*(l^5-1)/(5*(4*l)^5*l1);
     end
     if nu > 1
-         k(mcm) = k(mcm) + p./k(mcm);
+        k(mcm) = k(mcm) + p./k(mcm);
     end
 
     % For roots less than the order, use the roots/stationary points of the J_nu(l*x)
@@ -111,7 +117,7 @@ function [k, itter, errs] = besscrosszero(nu, l, N, varargin)
             itt=itt+1;
         end
         if nargout > 1
-           itter(m) = itt;
+            itter(m) = itt;
         end
         if nargout > 2
             errs(m) = err;
